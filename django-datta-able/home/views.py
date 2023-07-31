@@ -180,9 +180,9 @@ def detect_tumor(request):
 
         # Load your pre-trained models
         #detection_model = load_model('path/to/your/detection_model.h5')
-        model = load_model(r"home\3-conv-128-nodes-1-dense-model.h5",compile=False)
-        model2 = YOLO(r'home\best (1).pt')
-        model3 = load_model(r"home\pf3new_newbrats_3d.hdf5",compile=False)
+        model = load_model(r"D:\braintumor-djangoapplication\django-datta-able\home\3-conv-128-nodes-1-dense-model.h5",compile=False)
+        model2 = YOLO(r'D:\braintumor-djangoapplication\django-datta-able\home\best (1).pt')
+        model3 = load_model(r"D:\braintumor-djangoapplication\django-datta-able\home\pf3new_newbrats_3d.hdf5",compile=False)
 
 
         #MODEL_3
