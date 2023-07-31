@@ -1,0 +1,148 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block breadcrumbs %}{% endblock breadcrumbs %}
+
+{% block content %}
+    <!-- [ Main Content ] start -->
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>TumorVision - Home</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Set a fixed height for the header to accommodate the hero section */
+            #header {
+                height: 20vh;
+            }
+
+            /* Add padding to sections */
+            section {
+                padding: 80px 0;
+            }
+
+            /* Style hero section */
+            #hero-section {
+                position: relative;
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            #hero-section img {
+                position: absolute;
+                top: 50px;
+                left: 200px;
+                width: 1000px;
+                height: auto;
+              
+            }
+
+            /* Style information section */
+            #info-section h2 {
+                font-size: 36px;
+                margin-bottom: 20px;
+            }
+
+            #info-section p {
+                font-size: 18px;
+                line-height: 1.6;
+            }
+
+            /* Customize header */
+            header {
+                background-color: #5cc8d7;
+                color: #ffffff;
+                text-align: center;
+                padding: 20px 0;
+            }
+
+            header h1 {
+                font-size: 48px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            header p {
+                font-size: 24px;
+            }
+
+            /* Add smooth scrolling to navigation links */
+            a {
+                text-decoration: none;
+                color: #007bff;
+            }
+
+            a:hover {
+                color: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <header id="header">
+            <h1>TumorVision</h1>
+            <p>Your Brain Tumor Detection and Classification Solution</p>
+        </header>
+
+        <section id="hero-section">
+          <div class="container text-center">
+            <img src="{% static 'assets/images/image_intro.png' %}" alt="Brain Tumor Image" class="img-fluid">
+          </div>  
+        </section>
+
+        <section id="info-section">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Brain Tumor Facts</h2>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac risus et mi bibendum elementum a vel velit.
+                            In auctor iaculis ultrices. Fusce fringilla maximus tortor, quis tincidunt metus aliquam in. Vestibulum
+                            tincidunt congue turpis, a tincidunt nibh lacinia vel. Cras ut elit nec sapien malesuada suscipit at eget
+                            lectus.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quote-section">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Brain Tumor Quotes</h2>
+                        <p>
+                            "The greatest glory in living lies not in never falling, but in rising every time we fall." - Nelson Mandela
+                        </p>
+                        <p>
+                            "Strength does not come from physical capacity. It comes from an indomitable will." - Mahatma Gandhi
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            // Smooth scrolling effect for navigation links
+            document.addEventListener('DOMContentLoaded', function() {
+                const links = document.querySelectorAll('a[href^="#"]');
+                for (const link of links) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        document.querySelector(this.getAttribute('href')).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>
+    <!-- [ Main Content ] end -->
+{% endblock content %}
