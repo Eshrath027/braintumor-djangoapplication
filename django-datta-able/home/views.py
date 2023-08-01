@@ -18,7 +18,19 @@ from .models import UploadedImage
 from ultralytics import YOLO
 from IPython import display
 display.clear_output()
+import boto3
+import tensorflow as tf
 import ultralytics
+import h5py
+import torch 
+
+import s3fs
+import zipfile
+import tempfile
+import numpy as np
+from tensorflow import keras
+from pathlib import Path
+import logging
 
 def index(request):
   context = {
@@ -177,12 +189,84 @@ def detect_tumor(request):
         fs = FileSystemStorage()
         filename = fs.save(image_file.name, image_file)
         uploaded_file_url = fs.url(filename)
+        
+        
+        
+        # def process_user_input(request):
+    # Get the S3 bucket name and model file name from your settings or as needed
+       
+        # model_file_name = 'pf3new_newbrats_3d.hdf5'
 
-        # Load your pre-trained models
-        #detection_model = load_model('path/to/your/detection_model.h5')
-        model = load_model(r"D:\braintumor-djangoapplication\django-datta-able\home\3-conv-128-nodes-1-dense-model.h5",compile=False)
+        # # Initialize S3 client
+        # s3 = boto3.client('s3')
+
+        # # Download the model file from S3
+        # s3.download_file(bucket_name, model_file_name, '/tmp/' + model_file_name)
+
+        # # Load the TensorFlow model
+        # model3 = load_model('/tmp/' + model_file_name)
+        
+        
+        
+        # bucket_name = 'newtumormodel'
+        # moo='pf3new_newbrats_3d.hdf5'
+        
+        # s3=boto3.resource(
+        #   service_name='s3',
+        #   region_name='us-east-1',
+        #   aws_access_key_id='AKIARDLKIIDKFLFLXA5N',
+        #   aws_secret_access_key='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'
+        # )
+        # for obj1 in s3.Bucket('newtumormodel').objects.all():
+        #   print(obj1)
+        # s3_object = s3.Bucket('newtumormodel').Object('pf3new_newbrats_3d.hdf5')
+        # local_file_path = 'D:\braintumor-djangoapplication\django-datta-able\home\loadedmodel\pf3new_newbrats_3d.hdf5'  # Replace with the desired local file path
+
+        # # Download the S3 object to a local file
+        # s3_object.download_file(local_file_path)
+        
+        # Define your AWS credentials and bucket name
+        AWS_ACCESS_KEY = "AKIARDLKIIDKFLFLXA5N"
+        AWS_SECRET_KEY = "cvex9AIJBTcE0yfAOfopWaAtayn6N4+W9bfT6lua"
+        BUCKET_NAME = "newtumormodel"
+        MODEL_KEY3= "pf3new_newbrats_3d.hdf5"
+        MODEL_KEY1= "3-conv-128-nodes-1-dense-model.h5"
+        MODEL_KEY2= "best (1).pt"
+
+
+# Initialize S3 client
+        s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY, aws_secret_access_key=AWS_SECRET_KEY)
+
+        # Load the model from S3 directly without downloading to local path
+        model_file3 = s3.get_object(Bucket=BUCKET_NAME, Key=MODEL_KEY3)
+        model_content3 = model_file3['Body'].read()
+
+        # Use io.BytesIO to create a buffer to load the model
+        # Use h5py to load the model
+        with h5py.File(io.BytesIO(model_content3), 'r') as f:
+            model3 = load_model(f,compile=False)
+        #model1
+        model_file1 = s3.get_object(Bucket=BUCKET_NAME, Key=MODEL_KEY1)
+        model_content1 = model_file1['Body'].read()
+
+        # Use io.BytesIO to create a buffer to load the model
+        # Use h5py to load the model
+        with h5py.File(io.BytesIO(model_content1), 'r') as f:
+            model1 = load_model(f,compile=False)
+        
+        # model = load_model(r"D:\braintumor-djangoapplication\django-datta-able\home\3-conv-128-nodes-1-dense-model.h5",compile=False)
+        
+        #model2
+        # model_file2= s3.get_object(Bucket=BUCKET_NAME, Key=MODEL_KEY2)
+        # model_content2 = model_file2['Body'].read()
+
+        # # Use io.BytesIO to create a buffer to load the model
+        # # Use h5py to load the model
+        # with io.BytesIO(model_content2) as buffer:
+        #   model2 = torch.load(buffer)
+        
         model2 = YOLO(r'D:\braintumor-djangoapplication\django-datta-able\home\best (1).pt')
-        model3 = load_model(r"D:\braintumor-djangoapplication\django-datta-able\home\pf3new_newbrats_3d.hdf5",compile=False)
+        # model3 = load_model(r"D:\braintumor-djangoapplication\django-datta-able\home\pf3new_newbrats_3d.hdf5",compile=False)
 
 
         #MODEL_3
@@ -246,7 +330,7 @@ def detect_tumor(request):
         x = np.array(image)
         x = x.reshape(1, 224, 224, 3)  # Assuming RGB images
         x=x/255.0
-        prediction = model.predict(x)
+        prediction = model1.predict(x)
         y_bool = np.argmax(prediction, axis=1)
         z=y_bool[0]
         if z==0:

@@ -205,4 +205,21 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+# settings.py
+
+# Import Boto3 and other required modules
+import boto3
+
+# AWS S3 configurations
+AWS_ACCESS_KEY_ID = 'AKIARDLKIIDKFLFLXA5N'
+AWS_SECRET_ACCESS_KEY = 'cvex9AIJBTcE0yfAOfopWaAtayn6N4+W9bfT6lua'
+AWS_STORAGE_BUCKET_NAME = 'newtumormodel'
+AWS_S3_REGION_NAME = 'us-east-1'  # Replace with your S3 bucket region
+
+# Create a Boto3 S3 client
+s3_client = boto3.client('s3', region_name=AWS_S3_REGION_NAME,
+                         aws_access_key_id=AWS_ACCESS_KEY_ID,
+                         aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+
 ########################################
