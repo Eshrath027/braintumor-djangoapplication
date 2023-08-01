@@ -351,7 +351,7 @@ def detect_tumor(request):
           uploaded_image = UploadedImage(Name=name, Age=age, Gender=gender, image=image_file, predicted_class=pc,Volume=tumor_volume, Area=seg, Stage=stage)
           uploaded_image.save()
           
-          segmented_image_path = os.path.join('runs', 'segment', 'predict'+str(c+2), 'image0.jpg')
+          segmented_image_path = os.path.join('runs', 'segment', 'predict'+str(c+1), 'image0.jpg')
           with open(segmented_image_path, 'rb') as f:
               uploaded_image.tumor_image.save('segmented_image.jpg', f)
 
